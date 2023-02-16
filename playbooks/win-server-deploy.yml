@@ -1,0 +1,11 @@
+---
+
+- name: "Active Directory Deployment"
+  hosts: localhost
+  vars_files:
+    - ../vaults/proxmox_vault.yml
+    - ../vaults/windows_template_vault.yml
+    - ../vaults/ipavault.yml
+    - ../vaults/windows_domain_vault.yml
+  roles:
+    - ../roles/win-server-deploy

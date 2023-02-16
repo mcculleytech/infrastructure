@@ -1,0 +1,16 @@
+---
+
+- name: "Power On New Windows Server"
+  proxmox_kvm:
+    api_user: "{{ proxmox_user }}"
+    api_password: "{{ proxmox_pass }}"
+    api_host:  sam.pve.mcculley.tech
+    name: "{{ vm_name }}"
+    node: "{{ proxmox_host }}"
+    state: started
+
+- name: "Wait for server to come up"
+  vars:
+    - ansible_password: "{{ windows_template_pass }}"
+  ansible.builtin.wait_for_connection:
+  delegate_to: win22template.ad.mcculley.tech 

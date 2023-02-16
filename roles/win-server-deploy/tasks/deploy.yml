@@ -1,0 +1,16 @@
+---
+
+- name: "Deploy Windows Template from Proxmox"
+  proxmox_kvm:
+    api_user: "{{ proxmox_user }}"
+    api_password: "{{ proxmox_pass }}"
+    api_host:  sam.pve.mcculley.tech
+    clone: "{{ template }}"
+    name: "{{vm_name }}"
+    newid: "{{ newid }}"
+    node: "{{ proxmox_host }}"
+    target: "{{ proxmox_host }}"
+    storage: "{{ storage }}"
+    format: raw
+    full: true
+    timeout: 1000

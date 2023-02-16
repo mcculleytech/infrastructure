@@ -1,0 +1,29 @@
+---
+
+- name: "Install AD"
+  vars:
+    - ansible_password: "{{ windows_template_pass }}"
+  block:
+    - name: "Install Role"
+      win_feature:
+        name: AD-Domain-Services
+        include_sub_features: true
+        include_management_tools: true
+        state: present
+
+    - name: "Create domain"
+      win_domain:
+        dns_domain_name: "{{ win_domain_name }}"
+        safe_mode_password: "{{ win_domain_safe_mode_pass }}"
+      register: domain_install
+
+    - name: "Create Reverse DNS Zone"
+      ansible.windows.win_powershell:
+        script: |
+          Add-DnsServerPrimaryZone -NetworkID "10.1.9.0/24" -ReplicationScope "Domain"
+
+    - name: "reboot server"
+      win_reboot:
+      when: domain_install.changed 
+
+  delegate_to: eru.ad.mcculley.tech

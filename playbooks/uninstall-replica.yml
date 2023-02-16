@@ -1,0 +1,10 @@
+---
+- name: Playbook to unconfigure IPA replicas
+  hosts: ipareplicas
+  become: true
+  vars_files:
+    - ../vaults/ipavault.yml
+
+  roles:
+  - role: ipareplica
+    state: absent

@@ -1,0 +1,14 @@
+# Proxmox vars
+template: Win22Template
+proxmox_host: sam
+vm_name: DevADDC0
+storage: fast-btrfs-sam
+newid: 801
+
+# IPA vars
+ipa_host: iparhel0.nix.mcculley.tech
+dns_zone: ad.mcculley.tech
+dns_record_name: eru
+dns_record_type: 'A'
+dns_record_value: '10.1.9.2'
+fqdn: "{{ dns_record_name }}.{{ dns_zone }}"

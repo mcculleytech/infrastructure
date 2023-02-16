@@ -1,0 +1,7 @@
+---
+
+- include_tasks: dns_entry.yml
+- include_tasks: deploy.yml
+- include_tasks: poweron.yml
+- include_tasks: configure.yml
+- include_tasks: ad_install.yml

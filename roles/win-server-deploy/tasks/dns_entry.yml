@@ -1,0 +1,10 @@
+---
+- name: "Make DNS Entry in IPA"
+  ipa_dnsrecord: 
+    ipa_host: "{{ ipa_host }}"
+    ipa_pass: "{{ ipaadmin_password }}"
+    state: present
+    zone_name: "{{ dns_zone }}"
+    record_name: "{{ dns_record_name }}"
+    record_type: "{{ dns_record_type }}"
+    record_value: "{{ dns_record_value }}"

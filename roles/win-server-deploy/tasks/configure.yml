@@ -1,0 +1,31 @@
+---
+- name: "Configure Windows Server Pre-role install"
+  vars:
+    - ansible_password: "{{ windows_template_pass }}"
+  block:
+    - name: "Configure NTP"
+      win_shell: 'w32tm.exe /config /syncfromflags:manual /manualpeerlist:131.107.13.100,0x8 /reliable:yes /update'
+
+    - name: "Update NTP Config"
+      win_shell: 'w32tm.exe /config /update'
+
+    - name: "Change hostname of the Windows Server"
+      win_hostname:
+        name: addc0
+      register: reboot
+      
+    - name: "Reboot to Complete hostname change"
+      win_reboot:
+      when: reboot.reboot_required  
+      
+    - name: "Set New IP on Windows Server" 
+      ansible.windows.win_powershell:
+        script: |
+          New-NetIPAddress -InterfaceAlias "Ethernet Instance 0" -IPAddress 10.1.9.2 -AddressFamily IPv4 -PrefixLength 24 -Confirm:$false
+            
+    - name: "Remove Old IP on Windows Server" 
+      ansible.windows.win_powershell:
+        script: |
+          Remove-NetIPAddress -InterfaceAlias "Ethernet Instance 0" -IPAddress 10.1.9.25 -AddressFamily IPv4 -PrefixLength 24 -Confirm:$false
+      ignore_errors: true
+  delegate_to: win22template.ad.mcculley.tech

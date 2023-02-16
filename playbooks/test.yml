@@ -1,0 +1,11 @@
+---
+
+- name: "Vault Test"
+  hosts: localhost
+  vars_files:
+    - ../vaults/testvault.yml
+  tasks:
+
+    - name: "Print Encrypted Var to Screen"
+      debug:
+        msg: Is the vault unlocked? "{{ enc_var }}"
